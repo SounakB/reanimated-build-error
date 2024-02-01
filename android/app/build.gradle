@@ -102,6 +102,10 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
+    packagingOptions 
+    {   
+        pickFirst 'lib/armeabi-v7a/libreanimated.so' 
+    }
 }
 
 dependencies {
@@ -115,5 +119,15 @@ dependencies {
         implementation jscFlavor
     }
 }
+
+project.ext.react = [
+        enableHermes: true,
+        bundleInDebug: true //<--- make sure this is set to true
+]
+
+// also add this to force rebuild reanimated:
+project.ext.reanimated = [
+        buildFromSource: true
+]
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)

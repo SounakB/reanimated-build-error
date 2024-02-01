@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import type {PropsWithChildren} from 'react';
+import type { PropsWithChildren } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -15,6 +15,7 @@ import {
   Text,
   useColorScheme,
   View,
+  Button
 } from 'react-native';
 
 import {
@@ -25,11 +26,13 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
+import Animated, { useSharedValue } from 'react-native-reanimated';
+
 type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
-function Section({children, title}: SectionProps): React.JSX.Element {
+function Section({ children, title }: SectionProps): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
   return (
     <View style={styles.sectionContainer}>
@@ -62,6 +65,12 @@ function App(): React.JSX.Element {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  const width = useSharedValue(100);
+
+  const handlePress = () => {
+    width.value = width.value + 50;
+  };
+
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar
@@ -90,6 +99,14 @@ function App(): React.JSX.Element {
             Read the docs to discover what to do next:
           </Section>
           <LearnMoreLinks />
+          <Animated.View
+            style={{
+              width,
+              height: 100,
+              backgroundColor: 'violet',
+            }}
+          />
+          <Button onPress={handlePress} title="Click me" />
         </View>
       </ScrollView>
     </SafeAreaView>
